@@ -1,5 +1,5 @@
 import Style from "./style";
 
-export default function Home() {
+export default function Calendar() {
   return <Style>Home</Style>;
 }

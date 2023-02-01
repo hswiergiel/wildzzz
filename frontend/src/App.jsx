@@ -1,13 +1,12 @@
-import Home from "./pages/Home";
-
-import "./App.css";
+import Calendar from "@components/Calendar/Calendar";
+import "reset-css";
+import Style from "./style";
 
 function App() {
   return (
-    <div className="App">
-      <Home />
-      <p>coucou</p>
-    </div>
+    <Style>
+      <Calendar />
+    </Style>
   );
 }
 
