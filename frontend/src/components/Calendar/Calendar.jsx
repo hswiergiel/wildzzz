@@ -60,7 +60,7 @@ export default function Calendar() {
       default:
         reduction = 75;
     }
-    setUser({ ...user, points: user.points - reduction });
+
     api
       .post("/reservations", {
         user_id: user.id,
@@ -71,8 +71,13 @@ export default function Calendar() {
       .then(() => {
         setReservationNumber(reservationNumber + 1);
         api
-          .put(`/users/${user.id}`, { ...user })
-          .then(() => {})
+          .put(`/users/${user.id}`, {
+            ...user,
+            points: user.points - reduction,
+          })
+          .then(() => {
+            setUser({ ...user, points: user.points - reduction });
+          })
           .catch((err) => console.error(err));
       })
       .catch((err) => console.error(err));
@@ -92,7 +97,7 @@ export default function Calendar() {
       default:
         reduction = 75;
     }
-    setUser({ ...user, points: user.points - reduction });
+
     api
       .put("/reservations", {
         user_id: user.id,
@@ -102,10 +107,15 @@ export default function Calendar() {
         pushed_id: pushedUserId,
       })
       .then(() => {
-        setReservationNumber(reservationNumber + 1);
         api
-          .put(`/users/${user.id}`, { ...user })
-          .then(() => {})
+          .put(`/users/${user.id}`, {
+            ...user,
+            points: user.points - reduction,
+          })
+          .then(() => {
+            setUser({ ...user, points: user.points - reduction });
+            setReservationNumber(reservationNumber + 1);
+          })
           .catch((err) => console.error(err));
         api
           .put(`/users/${pushedUserId}`, {
@@ -130,16 +140,19 @@ export default function Calendar() {
       default:
         reduction = 75;
     }
-    setUser({ ...user, points: user.points + reduction });
+
     api
       .delete(`/reservations/${resaid}`)
       .then(() => {
-        setReservationNumber(reservationNumber - 1);
+        setReservationNumber(reservationNumber - 2);
       })
       .catch((err) => console.error(err));
     api
-      .put(`/users/${user.id}`, { ...user })
-      .then(() => {})
+      .put(`/users/${user.id}`, { ...user, points: user.points + reduction })
+      .then(() => {
+        setUser({ ...user, points: user.points + reduction });
+        setReservationNumber(reservationNumber + 1);
+      })
       .catch((err) => console.error(err));
   };
 
